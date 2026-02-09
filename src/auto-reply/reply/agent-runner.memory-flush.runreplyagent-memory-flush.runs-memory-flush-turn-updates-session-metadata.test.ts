@@ -178,7 +178,11 @@ describe("runReplyAgent memory flush", () => {
       typingMode: "instant",
     });
 
-    expect(calls.map((call) => call.prompt)).toEqual([DEFAULT_MEMORY_FLUSH_PROMPT, "hello"]);
+    const expectedFlushPrompt = DEFAULT_MEMORY_FLUSH_PROMPT.replace(
+      "YYYY-MM-DD",
+      new Date().toISOString().split("T")[0],
+    );
+    expect(calls.map((call) => call.prompt)).toEqual([expectedFlushPrompt, "hello"]);
 
     const stored = JSON.parse(await fs.readFile(storePath, "utf-8"));
     expect(stored[sessionKey].memoryFlushAt).toBeTypeOf("number");

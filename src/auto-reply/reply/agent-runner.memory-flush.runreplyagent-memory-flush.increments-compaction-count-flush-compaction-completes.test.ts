@@ -137,7 +137,10 @@ describe("runReplyAgent memory flush", () => {
     await seedSessionStore({ storePath, sessionKey, entry: sessionEntry });
 
     runEmbeddedPiAgentMock.mockImplementation(async (params: EmbeddedRunParams) => {
-      if (params.prompt === DEFAULT_MEMORY_FLUSH_PROMPT) {
+      if (
+        params.prompt ===
+        DEFAULT_MEMORY_FLUSH_PROMPT.replace("YYYY-MM-DD", new Date().toISOString().split("T")[0])
+      ) {
         params.onAgentEvent?.({
           stream: "compaction",
           data: { phase: "end", willRetry: false },

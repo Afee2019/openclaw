@@ -139,7 +139,10 @@ describe("runReplyAgent memory flush", () => {
     const calls: Array<EmbeddedRunParams> = [];
     runEmbeddedPiAgentMock.mockImplementation(async (params: EmbeddedRunParams) => {
       calls.push(params);
-      if (params.prompt === DEFAULT_MEMORY_FLUSH_PROMPT) {
+      if (
+        params.prompt ===
+        DEFAULT_MEMORY_FLUSH_PROMPT.replace("YYYY-MM-DD", new Date().toISOString().split("T")[0])
+      ) {
         return { payloads: [], meta: {} };
       }
       return {

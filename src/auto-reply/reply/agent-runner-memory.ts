@@ -133,7 +133,10 @@ export async function runMemoryFlushIfNeeded(params: {
           agentDir: params.followupRun.run.agentDir,
           config: params.followupRun.run.config,
           skillsSnapshot: params.followupRun.run.skillsSnapshot,
-          prompt: memoryFlushSettings.prompt,
+          prompt: memoryFlushSettings.prompt.replace(
+            "YYYY-MM-DD",
+            new Date().toISOString().split("T")[0],
+          ),
           extraSystemPrompt: flushSystemPrompt,
           ownerNumbers: params.followupRun.run.ownerNumbers,
           enforceFinalTag: resolveEnforceFinalTag(params.followupRun.run, provider),
